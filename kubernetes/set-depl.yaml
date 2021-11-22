@@ -19,21 +19,11 @@ spec:
           #image: 837742272167.dkr.ecr.eu-central-1.amazonaws.com/bar:ngap10
           image: nginx:latest
           livenessProbe:
-            exec:
-              command:
-              - service
-              - nginx
-              - status
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          readinessProbe:
-            exec:
-              command:
-              - service
-              - nginx
-              - status
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            httpGet:
+              path: /health
+              port: 8001
+            failureThreshold: 1
+            periodSeconds: 10
           ports:
             - containerPort: 80
 
@@ -56,25 +46,8 @@ spec:
       containers:
         - name : apache
           image: 837742272167.dkr.ecr.eu-central-1.amazonaws.com/bar:ap20
-          livenessProbe:
-            exec:
-              command:
-              - service
-              - apache2
-              - status
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          readinessProbe:
-            exec:
-              command:
-              - service
-              - apache2
-              - status
-            initialDelaySeconds: 5
-            periodSeconds: 5
           ports:
             - containerPort: 80
-
 
 ---
 apiVersion: autoscaling/v2beta1
