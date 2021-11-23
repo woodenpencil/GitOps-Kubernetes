@@ -20,10 +20,16 @@ spec:
           image: nginx:latest
           livenessProbe:
             httpGet:
-              path: /health
+              path: /
               port: 80
-            failureThreshold: 3
-            periodSeconds: 10
+            failureThreshold: 1
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 1
+            periodSeconds: 5
           ports:
             - containerPort: 80
 
@@ -46,6 +52,18 @@ spec:
       containers:
         - name : apache
           image: 837742272167.dkr.ecr.eu-central-1.amazonaws.com/bar:ap20
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 1
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 1
+            periodSeconds: 5
           ports:
             - containerPort: 80
 
